@@ -9,6 +9,10 @@ class Email extends Model
 {
 	use HasFactory;
 
+	public $table = 'email';
+
+	protected $fillable = ['email', 'is_primary', 'user_id', 'verification_token'];
+
 	public function user()
 	{
 		return $this->belongsTo(User::class);

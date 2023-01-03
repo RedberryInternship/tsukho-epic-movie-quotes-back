@@ -24,5 +24,6 @@ Route::middleware('guest')->group(function () {
 		Route::post('/login', 'login')->name('user.login');
 		Route::post('/register', 'register')->name('user.register');
 		Route::post('/password-reset', 'passwordReset')->name('user.password-reset');
+		Route::get('/verify', 'emailVerify')->name('user.verify');
 	});
 });
