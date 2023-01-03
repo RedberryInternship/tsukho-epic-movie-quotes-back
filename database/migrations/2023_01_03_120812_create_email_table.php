@@ -12,7 +12,7 @@ return new class extends Migration {
 			$table->string('email')->unique();
 			$table->timestamp('email_verified_at')->nullable();
 			$table->boolean('is_primary')->default(false);
-			$table->foreignId('user_id');
+			$table->foreignId('user_id')->constrained()->cascadeOnDelete();
 			$table->timestamps();
 		});
 	}
