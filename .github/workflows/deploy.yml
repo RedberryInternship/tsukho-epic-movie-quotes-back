@@ -7,10 +7,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-         with:
-          php-version: '7.4'
+        - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4"
       - name: install composer dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Set ssh key
