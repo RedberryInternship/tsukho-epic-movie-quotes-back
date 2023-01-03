@@ -13,6 +13,7 @@ return new class extends Migration {
 			$table->timestamp('email_verified_at')->nullable();
 			$table->boolean('is_primary')->default(false);
 			$table->foreignId('user_id')->constrained()->cascadeOnDelete();
+			$table->string('verification_token')->nullable();
 			$table->timestamps();
 		});
 	}
