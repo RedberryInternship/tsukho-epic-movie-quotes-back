@@ -11,6 +11,9 @@ return new class extends Migration {
 			$table->dropColumn('email');
 			$table->dropColumn('email_verified_at');
 			$table->dropColumn('password');
+		});
+
+		Schema::table('users', function (Blueprint $table) {
 			$table->string('password')->nullable();
 			$table->string('image');
 			$table->string('google_id')->nullable();
