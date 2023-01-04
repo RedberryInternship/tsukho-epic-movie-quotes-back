@@ -62,6 +62,13 @@ class UserController extends Controller
 			abort(401);
 		}
 
-		return response()->json('success', 201);
+		$email = Email::where('verification_token',$request->token)->first();
+
+
+		$email->email_verified_at = now();
+
+		$email->save();
+
+		return response()->json('Email successfully verified', 201);
 	}
 }
