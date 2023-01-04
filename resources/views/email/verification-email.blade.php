@@ -113,25 +113,24 @@
         <img src="{{ $message->embed('imgs/email-photo.png') }}" alt="email" class="email-photo">
     </div>
 
-    <p class="top-text">Movie quotes</p>
+    <p class="top-text">{{ __('email.name') }}</p>
 
-    <h1>Hola {{ $name }}</h1>
+    <h1>{{ __('email.hello') }} {{ $name }}</h1>
 
-    <h1 class="middle-text">Thanks for joining Movie quotes! We really appreciate it. Please click the button below to
-        verify your account:
+    <h1 class="middle-text">{{ $mainText }}
     </h1>
 
-    <a href="google.com" class="red-button">Verify account</a>
+    <a href="google.com" class="red-button">{{ $buttonText }}</a>
 
 
-    <h1 class="text-after-button">If clicking doesn't work, you can try copying and pasting it to your browser:</h1>
+    <h1 class="text-after-button">{{ __('email.clicking') }}</h1>
 
     <a href="google.com" class="link">{{ $route }}</a>
 
-    <h1 class="bottom-text">If you have any problems, please contact us: <a href="moviequotes.ge"
+    <h1 class="bottom-text">{{ __('email.any-problem') }} <a href="moviequotes.ge"
             class="website">support@moviequotes.ge</a></h1>
 
-    <h1>MovieQuotes Crew</h1>
+    <h1>{{ __('email.crew') }}</h1>
 </body>
 
 </html>

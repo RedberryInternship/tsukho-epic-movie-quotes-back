@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Mail\RegisterMail;
+use App\Mail\VerificationMail;
 use App\Models\Email;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,6 +21,12 @@ class UserController extends Controller
 
 	public function register(RegisterRequest $request)
 	{
+		if (!is_null(request('lang')))
+		{
+			app()->setLocale(request('lang'));
+		}
+
+
 		$data = ['name' => $request->name, 'password' => bcrypt($request->password), 'image' => asset('storage/images/default.png')];
 
 		$user = User::create($data);
@@ -37,7 +43,7 @@ class UserController extends Controller
 			['token' => $token],
 		);
 
-		Mail::to($request->email)->send(new RegisterMail($route, $request->name, 'Account Verification'));
+		Mail::to($request->email)->send(new VerificationMail($route, $request->name, __('email.account-verification'), __('email.joining-text'), __('email.verify-button')));
 
 		return $user;
 	}

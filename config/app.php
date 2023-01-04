@@ -16,6 +16,8 @@ return [
 
 	'name'            => env('APP_NAME', 'Laravel'),
 
+	'email-name' => 	env('MAIL_USERNAME', 'support@moviequotes.ge'),
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Environment
