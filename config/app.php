@@ -16,11 +16,11 @@ return [
 
 	'name'            => env('APP_NAME', 'Laravel'),
 
-	'email-name' => 	env('MAIL_USERNAME', 'support@moviequotes.ge'),
+	'email-name'      => env('MAIL_USERNAME', 'support@moviequotes.ge'),
 
-	'front-url' => env('FRONT_END_URL'),
+	'front-url'       => env('FRONT_END_URL'),
 
-	'back-url' => env('BACK_END_URL'),
+	'back-url'        => env('BACK_END_URL'),
 
 	/*
 	|--------------------------------------------------------------------------
