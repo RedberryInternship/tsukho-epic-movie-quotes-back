@@ -26,7 +26,6 @@ class UserController extends Controller
 			app()->setLocale(request('lang'));
 		}
 
-
 		$data = ['name' => $request->name, 'password' => bcrypt($request->password), 'image' => asset('storage/images/default.png')];
 
 		$user = User::create($data);
@@ -61,6 +60,12 @@ class UserController extends Controller
 		{
 			abort(401);
 		}
+
+		$email = Email::where('verification_token', $request->token);
+
+		$email->email_verified_at = now();
+
+		$email->save();
 
 		return response()->json('success', 201);
 	}
