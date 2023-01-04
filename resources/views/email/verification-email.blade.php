@@ -120,12 +120,12 @@
     <h1 class="middle-text">{{ $mainText }}
     </h1>
 
-    <a href="google.com" class="red-button">{{ $buttonText }}</a>
+    <a href={{ $route }} class="red-button">{{ $buttonText }}</a>
 
 
     <h1 class="text-after-button">{{ __('email.clicking') }}</h1>
 
-    <a href="google.com" class="link">{{ $route }}</a>
+    <a href={{ $route }} class="link">{{ $route }}</a>
 
     <h1 class="bottom-text">{{ __('email.any-problem') }} <a href="moviequotes.ge"
             class="website">support@moviequotes.ge</a></h1>
