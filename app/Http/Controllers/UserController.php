@@ -67,6 +67,8 @@ class UserController extends Controller
 
 		$email->email_verified_at = now();
 
+		$email->verification_token = null;
+		
 		$email->save();
 
 		return response()->json('Email successfully verified', 201);
