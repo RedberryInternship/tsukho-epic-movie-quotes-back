@@ -43,7 +43,7 @@ class UserController extends Controller
 			['token' => $token],
 		);
 
-		$frontUrl = config('app.front-url') . '?register-link=' . $route;
+		$frontUrl = config('app.front-url') . '?register-link=' . $route . '&lang=' . request('lang');
 
 		Mail::to($request->email)->send(new VerificationMail($frontUrl, $request->name, __('email.account-verification'), __('email.joining-text'), __('email.verify-button')));
 
