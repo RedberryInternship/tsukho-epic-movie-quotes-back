@@ -61,7 +61,7 @@ class UserController extends Controller
 			abort(401);
 		}
 
-		$email = Email::where('verification_token', $request->token);
+		$email = Email::where('verification_token', $request->token)->first();
 
 		$email->email_verified_at = now();
 
