@@ -54,6 +54,6 @@ class UserController extends Controller
 			abort(401);
 		}
 
-		return 'sdsad';
+		return response()->json('success', 201);
 	}
 }
