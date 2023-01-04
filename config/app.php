@@ -18,6 +18,10 @@ return [
 
 	'email-name' => 	env('MAIL_USERNAME', 'support@moviequotes.ge'),
 
+	'front-url' => env('FRONT_END_URL'),
+
+	'back-url' => env('BACK_END_URL'),
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Environment

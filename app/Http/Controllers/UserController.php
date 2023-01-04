@@ -43,9 +43,11 @@ class UserController extends Controller
 			['token' => $token],
 		);
 
-		Mail::to($request->email)->send(new VerificationMail($route, $request->name, __('email.account-verification'), __('email.joining-text'), __('email.verify-button')));
+		$frontUrl = config('app.front-url') . '?register-link=' . $route;
 
-		return $user;
+		Mail::to($request->email)->send(new VerificationMail($frontUrl, $request->name, __('email.account-verification'), __('email.joining-text'), __('email.verify-button')));
+
+		return response()->json('success', 201);
 	}
 
 	public function passwordReset(PasswordResetRequest $request)
