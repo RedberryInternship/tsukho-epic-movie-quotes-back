@@ -82,7 +82,7 @@ class UserController extends Controller
 
 		if ($email->email_verified_at === null)
 		{
-			return response()->json(__('email.email-not-verified'), 422);
+			return response()->json(['message' => __('email.email-not-verified')], 422);
 		}
 
 		$token = sha1(time());
