@@ -9,4 +9,7 @@ return [
 	'any-problem'            => 'If you have any problems, please contact us:',
 	'crew'                   => 'MovieQuotes Crew',
 	'hello'                  => 'Hola',
+	'password-reset'         => 'Password Reset',
+	'reset-text'             => 'Please click the button below to reset your password:',
+	'reset-button'           => 'Reset password',
 ];
