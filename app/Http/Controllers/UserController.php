@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\NewPasswordRequest;
 use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Mail\VerificationMail;
@@ -81,7 +82,7 @@ class UserController extends Controller
 
 		if ($email->email_verified_at === null)
 		{
-			return response()->json('email is not verified', 422);
+			return response()->json(__('email.email-not-verified'), 422);
 		}
 
 		$token = sha1(time());
@@ -102,7 +103,19 @@ class UserController extends Controller
 		return response()->json('Password reset email sent successfully', 201);
 	}
 
-	public function verifyPasswordReset()
+	public function verifyPasswordReset(NewPasswordRequest $request)
 	{
+		if (!$request->hasValidSignature())
+		{
+			abort(401);
+		}
+
+		$user = Email::where('verification_token', $request->token)->first()->user;
+
+		$user->password = bcrypt($request->password);
+
+		$user->save();
+
+		return response()->json('User password changed successfully', 201);
 	}
 }

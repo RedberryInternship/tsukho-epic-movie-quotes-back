@@ -12,4 +12,5 @@ return [
 	'password-reset'         => 'Password Reset',
 	'reset-text'             => 'Please click the button below to reset your password:',
 	'reset-button'           => 'Reset password',
+	'email-not-verified'     => 'Email is not verified',
 ];
