@@ -43,7 +43,7 @@ class UserController extends Controller
 			['token' => $token],
 		);
 
-		$frontUrl = config('app.front-url') . '?register-link=' . $route . '&lang=' . request('lang');
+		$frontUrl = config('app.front-url') . request('lang') . '?register-link=' . $route;
 
 		Mail::to($request->email)->send(new VerificationMail($frontUrl, $request->name, __('email.account-verification'), __('email.joining-text'), __('email.verify-button')));
 
@@ -59,7 +59,7 @@ class UserController extends Controller
 
 		$email = Email::where('verification_token', $request->token)->first();
 
-		if ($email->email_verified_at !== null)
+		if ($email->email_verified_at)
 		{
 			return response()->json('email is already verified', 422);
 		}
@@ -95,7 +95,7 @@ class UserController extends Controller
 			['token' => $token],
 		);
 
-		$frontUrl = config('app.front-url') . '?reset-link=' . $route . '&lang=' . request('lang');
+		$frontUrl = config('app.front-url') . request('lang') . '?reset-link=' . $route;
 
 		Mail::to($request->email)->send(new VerificationMail($frontUrl, $request->name, __('email.password-reset'), __('email.reset-text'), __('email.reset-button')));
 
