@@ -46,12 +46,7 @@ class UserController extends Controller
 
 		Mail::to($request->email)->send(new VerificationMail($frontUrl, $request->name, __('email.account-verification'), __('email.joining-text'), __('email.verify-button')));
 
-		return response()->json('success', 201);
-	}
-
-	public function passwordReset(PasswordResetRequest $request)
-	{
-		return $request;
+		return response()->json('Email verification email sent successfully', 201);
 	}
 
 	public function emailVerify(Request $request)
@@ -63,10 +58,51 @@ class UserController extends Controller
 
 		$email = Email::where('verification_token', $request->token)->first();
 
+		if ($email->email_verified_at !== null)
+		{
+			return response()->json('email is already verified', 422);
+		}
+
 		$email->email_verified_at = now();
 
 		$email->save();
 
-		return response()->json('success', 201);
+		return response()->json('Email verified successfully', 201);
+	}
+
+	public function passwordReset(PasswordResetRequest $request)
+	{
+		if (!is_null(request('lang')))
+		{
+			app()->setLocale(request('lang'));
+		}
+
+		$email = Email::where('email', $request->email)->first();
+
+		if ($email->email_verified_at === null)
+		{
+			return response()->json('email is not verified', 422);
+		}
+
+		$token = sha1(time());
+
+		$email->verification_token = $token;
+
+		$route = URL::temporarySignedRoute(
+			'user.password-verify',
+			now()->addMinutes(30),
+			['token' => $token],
+		);
+
+		$frontUrl = config('app.front-url') . '?reset-link=' . $route . '&lang=' . request('lang');
+
+		Mail::to($request->email)->send(new VerificationMail($frontUrl, $request->name, __('email.password-reset'), __('email.reset-text'), __('email.reset-button')));
+
+		$email->save();
+		return response()->json('Password reset email sent successfully', 201);
+	}
+
+	public function verifyPasswordReset()
+	{
 	}
 }
