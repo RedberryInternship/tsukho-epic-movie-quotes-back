@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
 	Route::group(['controller' => UserLoginController::class], function () {
 		Route::get('/logout', 'logout')->name('user-login.logout');
+		Route::get('/user-info', 'userInfo')->name('user-login.user-info');
 	});
 });
 
@@ -31,6 +32,5 @@ Route::middleware('guest')->group(function () {
 
 	Route::group(['controller' => UserLoginController::class], function () {
 		Route::post('/login', 'login')->name('user-login.login');
-		Route::post('/logout', 'logout')->name('user-login.logout');
 	});
 });
