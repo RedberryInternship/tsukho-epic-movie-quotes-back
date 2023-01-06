@@ -48,4 +48,9 @@ class UserLoginController extends Controller
 
 		return response()->json(['message' => 'User logged out successfully'], 201);
 	}
+
+	public function userInfo()
+	{
+		return response()->json(['user' => auth()->user()], 200);
+	}
 }
