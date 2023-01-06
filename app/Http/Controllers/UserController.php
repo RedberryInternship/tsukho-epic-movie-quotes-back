@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
 use App\Http\Requests\NewPasswordRequest;
 use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\RegisterRequest;
@@ -15,11 +14,7 @@ use Illuminate\Support\Facades\URL;
 
 class UserController extends Controller
 {
-	public function login(LoginRequest $request)
-	{
-		return $request;
-	}
-
+	
 	public function register(RegisterRequest $request)
 	{
 		if (!is_null(request('lang')))
