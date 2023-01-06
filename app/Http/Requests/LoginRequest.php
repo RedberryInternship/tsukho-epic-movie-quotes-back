@@ -9,8 +9,9 @@ class LoginRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'login'    => 'required|min:3',
-			'password' => 'required|min:3',
+			'login'          => 'required|min:3',
+			'password'       => 'required|min:3',
+			'remember'       => 'boolean',
 		];
 	}
 }
