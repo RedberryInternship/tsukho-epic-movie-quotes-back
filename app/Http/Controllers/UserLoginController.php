@@ -17,6 +17,11 @@ class UserLoginController extends Controller
 		{
 			$email = Email::where('email', $request->login)->first();
 
+			if ($email === null)
+			{
+				return response()->json(['message' => 'User not found'], 401);
+			}
+
 			if ($email->email_verified_at === null)
 			{
 				return response()->json(['message' => 'Email is not verified'], 422);
@@ -28,6 +33,11 @@ class UserLoginController extends Controller
 		if ($login_type === 'name')
 		{
 			$user = User::where('name', $request->login)->first();
+		}
+
+		if ($user === null)
+		{
+			return response()->json(['message' => 'User not found'], 401);
 		}
 
 		if (auth()->validate(['id' => $user->id, 'password' => $request->password]))
