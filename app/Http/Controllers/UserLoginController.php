@@ -24,17 +24,18 @@ class UserLoginController extends Controller
 
 			$user = $email->user;
 		}
-
 		if ($login_type === 'name')
 		{
 			$user = User::where('name', $request->login)->firstOrFail();
+
+			$user->emails->where('email_verified_at', '!=', null)->firstOrFail();
 		}
 
 		if (auth()->validate(['id' => $user->id, 'password' => $request->password]))
 		{
 			Auth::loginUsingId($user->id, $request->remember);
-			return response()->json(['user' => auth()->user()], 200);
 			request()->session()->regenerate();
+			return response()->json(['user' => auth()->user()], 200);
 		}
 
 		return response()->json(['message' => 'Invalid credentials'], 401);
