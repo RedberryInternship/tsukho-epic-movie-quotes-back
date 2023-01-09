@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\URL;
 
 class UserController extends Controller
 {
-	
 	public function register(RegisterRequest $request)
 	{
 		if (!is_null(request('lang')))
