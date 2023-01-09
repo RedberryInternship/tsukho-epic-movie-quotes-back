@@ -21,6 +21,14 @@ Route::middleware('auth:sanctum')->group(function () {
 		Route::get('/logout', 'logout')->name('user-login.logout');
 		Route::get('/user-info', 'userInfo')->name('user-login.user-info');
 	});
+
+	Route::group(['controller' => MovieController::class], function () {
+		Route::get('/movies', 'index')->name('movie.index');
+		Route::get('/movie/{id}', 'show')->name('movie.show');
+		Route::post('/create-movie', 'store')->name('movie.store');
+		Route::put('/update-movie/{id}', 'put')->name('movie.put');
+		Route::delete('/delete-movie/{id}', 'destroy')->name('movie.destroy');
+	});
 });
 
 Route::middleware('guest')->group(function () {
@@ -33,13 +41,5 @@ Route::middleware('guest')->group(function () {
 
 	Route::group(['controller' => UserLoginController::class], function () {
 		Route::post('/login', 'login')->name('user-login.login');
-	});
-
-	Route::group(['controller' => MovieController::class], function () {
-		Route::get('/movies', 'index')->name('movie.index');
-		Route::get('/movie/{id}', 'show')->name('movie.show');
-		Route::post('/create-movie', 'store')->name('movie.store');
-		Route::put('/update-movie/{id}', 'put')->name('movie.put');
-		Route::delete('/delete-movie/{id}', 'destroy')->name('movie.destroy');
 	});
 });

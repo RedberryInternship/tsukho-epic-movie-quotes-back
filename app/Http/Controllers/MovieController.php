@@ -21,7 +21,9 @@ class MovieController extends Controller
 
 	public function show(Movie $id)
 	{
-		return response()->json(['movie' => $id], 200);
+		$movie = $id->with('quotes')->get();
+
+		return response()->json(['movie' => $movie], 200);
 	}
 
 	public function store(MovieStoreRequest $request)
