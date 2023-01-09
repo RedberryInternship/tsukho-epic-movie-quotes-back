@@ -43,7 +43,7 @@ class UserLoginController extends Controller
 
 	public function logout()
 	{
-		auth()->logout();
+		auth()->guard('web')->logout();
 		request()->session()->invalidate();
 		request()->session()->regenerateToken();
 
