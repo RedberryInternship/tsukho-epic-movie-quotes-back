@@ -14,16 +14,16 @@ class MovieController extends Controller
 
 	public function index()
 	{
-		$movies = auth()->user()->movies->withCount('quotes')->get();
+		$movies = Movie::where('user_id', auth()->user()->id)->withCount('quotes')->get();
 
-		return response()->json(['data' => $movies], 200);
+		return response()->json($movies, 200);
 	}
 
-	public function show(Movie $id)
+	public function show($id)
 	{
-		$movie = $id->with('quotes')->get();
+		$movie = Movie::where('id', $id)->with('quotes')->get();
 
-		return response()->json(['movie' => $movie], 200);
+		return response()->json($movie, 200);
 	}
 
 	public function store(MovieStoreRequest $request)
