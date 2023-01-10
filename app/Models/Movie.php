@@ -27,4 +27,19 @@ class Movie extends Model
 	{
 		return $this->belongsTo(User::class);
 	}
+
+	public function scopeFilter($query, array $filters)
+	{
+		if ($filters['search'] ?? false)
+		{
+			if (app()->getLocale() === 'en')
+			{
+				$query->where('name->en', 'like', '%' . ucfirst($filters['search']) . '%');
+			}
+			if (app()->getLocale() === 'ka')
+			{
+				$query->where('name->ka', 'like', '%' . ucfirst($filters['search']) . '%');
+			}
+		}
+	}
 }

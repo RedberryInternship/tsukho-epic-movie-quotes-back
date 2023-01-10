@@ -21,7 +21,7 @@ class UserController extends Controller
 			app()->setLocale(request('lang'));
 		}
 
-		$data = ['name' => $request->name, 'password' => bcrypt($request->password), 'image' => asset('storage/images/default.png')];
+		$data = ['name' => $request->name, 'password' => bcrypt($request->password), 'image' => asset('img/default.png')];
 
 		$user = User::create($data);
 
