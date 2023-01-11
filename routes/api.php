@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserLoginController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,11 @@ Route::middleware('auth:sanctum')->group(function () {
 		Route::post('/create-movie', 'store')->name('movie.store');
 		Route::put('/update-movie/{id}', 'put')->name('movie.put');
 		Route::delete('/delete-movie/{id}', 'destroy')->name('movie.destroy');
+	});
+
+	Route::group(['controller' => QuoteController::class], function () {
+		Route::put('/update-quote', 'put')->name('quote.put');
+		Route::delete('/delete-quote/{id}', 'destroy')->name('quote.destroy');
 	});
 });
 
