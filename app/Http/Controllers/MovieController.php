@@ -21,7 +21,9 @@ class MovieController extends Controller
 
 	public function show($id)
 	{
-		$movie = Movie::where('id', $id)->with('quotes')->get();
+		$movie = Movie::where('id', $id)->with(['quotes' => function ($quote) {
+			return $quote->withCount(['likes', 'comments']);
+		}])->get();
 
 		return response()->json($movie, 200);
 	}
@@ -41,8 +43,9 @@ class MovieController extends Controller
 		$movie->setTranslation('name', 'en', $data['name-en'])
 		->setTranslation('name', 'ka', $data['name-ka'])->setTranslation('director', 'en', $data['director-en'])
 		->setTranslation('director', 'ka', $data['director-ka'])->setTranslation('description', 'en', $data['description-ka'])
-		->setTranslation('description', 'ka', $data['description-ka'])->setAttribute('genres', $data['genres'])
+		->setTranslation('description', 'ka', $data['description-ka'])->setAttribute('tags', $data['tags'])
 		->setAttribute('image', $data['image'])->setAttribute('user_id', auth()->user()->id)->setAttribute('date', $data['date'])
+		->setAttribute('budget', $data['budget'])
 		->save();
 
 		return response()->json(['message' => 'Movie created successfully'], 200);

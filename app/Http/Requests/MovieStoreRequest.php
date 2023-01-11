@@ -16,13 +16,14 @@ class MovieStoreRequest extends FormRequest
 		return [
 			'name-ka'        => 'required',
 			'name-en'        => 'required',
-			'genres'         => 'required',
+			'tags'           => 'required',
 			'date'           => 'required',
 			'director-ka'    => 'required',
 			'director-en'    => 'required',
 			'description-ka' => 'required',
 			'description-en' => 'required',
 			'image'          => 'required',
+			'budget'         => 'required',
 		];
 	}
 }
