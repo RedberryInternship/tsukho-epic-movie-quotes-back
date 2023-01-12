@@ -8,6 +8,13 @@ use App\Models\Quote;
 
 class QuoteController extends Controller
 {
+	public function show($id)
+	{
+		$quote = Quote::where('id', $id)->with(['likes', 'comments'])->get();
+
+		return response()->json($quote, 200);
+	}
+
 	public function store(QuoteStoreRequest $request)
 	{
 		$data = $request->validated();
@@ -19,9 +26,9 @@ class QuoteController extends Controller
 			$data['image'] = asset('storage/' . $text['image']);
 		}
 
-		$movie = new Quote();
+		$quote = new Quote();
 
-		$movie->setTranslation('quote', 'en', $data['quote-en'])
+		$quote->setTranslation('quote', 'en', $data['quote-en'])
 		->setTranslation('quote', 'ka', $data['quote-ka'])
 		->setAttribute('image', $data['image'])->setAttribute('movie_id', $data['id'])
 		->save();
