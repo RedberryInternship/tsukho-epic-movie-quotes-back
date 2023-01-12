@@ -2,11 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\QuoteStoreRequest;
 use App\Http\Requests\UpdateQuoteRequest;
 use App\Models\Quote;
 
 class QuoteController extends Controller
 {
+	public function store(QuoteStoreRequest $request)
+	{
+		$data = $request->validated();
+
+		if ($request->hasFile('image'))
+		{
+			$text['image'] = $request->file('image')
+			->store('images', 'public');
+			$data['image'] = asset('storage/' . $text['image']);
+		}
+
+		$movie = new Quote();
+
+		$movie->setTranslation('quote', 'en', $data['quote-en'])
+		->setTranslation('quote', 'ka', $data['quote-ka'])
+		->setAttribute('image', $data['image'])->setAttribute('movie_id', $data['id'])
+		->save();
+
+		return response()->json(['message' => 'Quote created successfully'], 200);
+	}
+
 	public function put(UpdateQuoteRequest $request)
 	{
 		$data = $request->validated();
