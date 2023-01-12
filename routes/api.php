@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
 	});
 
 	Route::group(['controller' => QuoteController::class], function () {
+		Route::post('/create-quote', 'store')->name('quote.store');
 		Route::put('/update-quote', 'put')->name('quote.put');
 		Route::delete('/delete-quote/{id}', 'destroy')->name('quote.destroy');
 	});
