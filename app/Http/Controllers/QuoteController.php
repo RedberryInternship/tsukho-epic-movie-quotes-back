@@ -10,7 +10,11 @@ class QuoteController extends Controller
 {
 	public function show($id)
 	{
-		$quote = Quote::where('id', $id)->with(['likes', 'comments'])->get();
+		$quote = Quote::where('id', $id)->with(['likes' => function ($like) {
+			return $like->with(['user']);
+		}, 'comments' => function ($comment) {
+			return $comment->with(['user']);
+		}])->get();
 
 		return response()->json($quote, 200);
 	}
