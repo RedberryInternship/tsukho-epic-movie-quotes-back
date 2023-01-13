@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
 	});
 
 	Route::group(['controller' => QuoteController::class], function () {
+		Route::get('/quote/{id}', 'show')->name('quote.show');
 		Route::post('/create-quote', 'store')->name('quote.store');
 		Route::put('/update-quote', 'put')->name('quote.put');
 		Route::delete('/delete-quote/{id}', 'destroy')->name('quote.destroy');
@@ -42,7 +43,7 @@ Route::middleware('guest')->group(function () {
 	Route::group(['controller' => UserController::class], function () {
 		Route::post('/register', 'register')->name('user.register');
 		Route::post('/password-reset', 'passwordReset')->name('user.password-reset');
-		Route::post('password-verify', 'verifyPasswordReset')->name('user.password-verify');
+		Route::post('/password-verify', 'verifyPasswordReset')->name('user.password-verify');
 		Route::get('/verify', 'emailVerify')->name('user.verify');
 	});
 
