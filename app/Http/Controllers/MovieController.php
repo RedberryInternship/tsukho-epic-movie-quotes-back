@@ -14,7 +14,7 @@ class MovieController extends Controller
 
 	public function index()
 	{
-		$movies = Movie::where('user_id', auth()->user()->id)->withCount('quotes')->get();
+		$movies = Movie::where('user_id', auth()->user()->id)->filter(request(['search']))->withCount('quotes')->get();
 
 		return response()->json($movies, 200);
 	}
@@ -23,7 +23,12 @@ class MovieController extends Controller
 	{
 		$movie = Movie::where('id', $id)->with(['quotes' => function ($quote) {
 			return $quote->withCount(['likes', 'comments']);
-		}])->get();
+		}])->first();
+
+		if (!$movie)
+		{
+			return response()->json(['message' => 'movie was not found'], 404);
+		}
 
 		return response()->json($movie, 200);
 	}
