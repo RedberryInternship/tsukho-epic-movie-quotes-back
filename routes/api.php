@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
@@ -36,6 +38,14 @@ Route::middleware('auth:sanctum')->group(function () {
 		Route::post('/create-quote', 'store')->name('quote.store');
 		Route::put('/update-quote', 'put')->name('quote.put');
 		Route::delete('/delete-quote/{id}', 'destroy')->name('quote.destroy');
+	});
+
+	Route::group(['controller' => CommentController::class], function () {
+		Route::post('/create-comment', 'store')->name('comment.store');
+	});
+
+	Route::group(['controller' => LikeController::class], function () {
+		Route::post('/store-or-destroy/{id}', 'storeOrDestroy')->name('quote.storeOrDestroy');
 	});
 });
 
