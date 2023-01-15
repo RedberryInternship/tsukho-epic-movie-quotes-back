@@ -37,11 +37,11 @@ class Movie extends Model
 		{
 			if (app()->getLocale() === 'en')
 			{
-				$query->where('name->en', 'like', '%' . ucfirst($filters['search']) . '%');
+				$query->where('name->en', 'like', '%' . ($filters['search']) . '%');
 			}
 			if (app()->getLocale() === 'ka')
 			{
-				$query->where('name->ka', 'like', '%' . ucfirst($filters['search']) . '%');
+				$query->where('name->ka', 'like', '%' . ($filters['search']) . '%');
 			}
 		}
 	}
