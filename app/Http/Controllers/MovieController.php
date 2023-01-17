@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MovieStoreRequest;
+use App\Http\Requests\MovieUpdateRequest;
 use Spatie\Translatable\HasTranslations;
 use App\Models\Movie;
+use App\Models\MovieTag;
 use App\Models\Tag;
 
 class MovieController extends Controller
@@ -49,6 +51,8 @@ class MovieController extends Controller
 		{
 			$text['image'] = $request->file('image')
 			->store('images', 'public');
+
+			$data['image'] = asset('storage/' . $text['image']);
 		}
 
 		$movie = new Movie();
@@ -61,10 +65,15 @@ class MovieController extends Controller
 		->setAttribute('budget', $data['budget'])
 		->save();
 
+		foreach (json_decode($data['tags']) as $tag)
+		{
+			MovieTag::create(['movie_id' => $movie->id, 'tag_id' => $tag]);
+		}
+
 		return response()->json(['message' => 'Movie created successfully'], 200);
 	}
 
-	public function put(MovieStoreRequest $request, Movie $id)
+	public function put(MovieUpdateRequest $request)
 	{
 		$data = $request->validated();
 
@@ -74,10 +83,27 @@ class MovieController extends Controller
 
 		$newDescriptionTranslations = ['en' => $data['description-ka'], 'ka' => $data['description-en']];
 
-		$id->replaceTranslations('name', $newNameTranslations)->replaceTranslations('director', $newDirectorTranslations)
-		->replaceTranslations('description', $newDescriptionTranslations)->setAttribute('genres', $data['genres'])
+		if ($request->hasFile('image'))
+		{
+			$text['image'] = $request->file('image')
+			->store('images', 'public');
+
+			$data['image'] = asset('storage/' . $text['image']);
+		}
+
+		$movie = Movie::find($data['id']);
+
+		$movie->replaceTranslations('name', $newNameTranslations)->replaceTranslations('director', $newDirectorTranslations)
+		->replaceTranslations('description', $newDescriptionTranslations)
 		->setAttribute('image', $data['image'])->setAttribute('user_id', auth()->user()->id)->setAttribute('date', $data['date'])
 		->save();
+
+		MovieTag::where('movie_id', $data['id'])->delete();
+
+		foreach (json_decode($data['tags']) as $tag)
+		{
+			MovieTag::create(['movie_id' => $movie->id, 'tag_id' => $tag]);
+		}
 
 		return response()->json(['message' => 'movie data updated successfully'], 200);
 	}
