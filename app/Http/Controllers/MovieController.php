@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MovieStoreRequest;
 use Spatie\Translatable\HasTranslations;
 use App\Models\Movie;
+use App\Models\Tag;
 
 class MovieController extends Controller
 {
@@ -23,6 +24,8 @@ class MovieController extends Controller
 	{
 		$movie = Movie::where('id', $id)->with(['quotes' => function ($quote) {
 			return $quote->withCount(['likes', 'comments']);
+		}, 'tags' => function ($tag) {
+			return $tag->select('tags.id', 'tags.tags');
 		}])->first();
 
 		if (!$movie)
@@ -31,6 +34,11 @@ class MovieController extends Controller
 		}
 
 		return response()->json($movie, 200);
+	}
+
+	public function genres()
+	{
+		return response()->json(Tag::all(), 200);
 	}
 
 	public function store(MovieStoreRequest $request)
@@ -48,7 +56,7 @@ class MovieController extends Controller
 		$movie->setTranslation('name', 'en', $data['name-en'])
 		->setTranslation('name', 'ka', $data['name-ka'])->setTranslation('director', 'en', $data['director-en'])
 		->setTranslation('director', 'ka', $data['director-ka'])->setTranslation('description', 'en', $data['description-ka'])
-		->setTranslation('description', 'ka', $data['description-ka'])->setAttribute('tags', $data['tags'])
+		->setTranslation('description', 'ka', $data['description-ka'])
 		->setAttribute('image', $data['image'])->setAttribute('user_id', auth()->user()->id)->setAttribute('date', $data['date'])
 		->setAttribute('budget', $data['budget'])
 		->save();

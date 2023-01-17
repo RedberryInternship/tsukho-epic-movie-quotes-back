@@ -31,6 +31,11 @@ class Movie extends Model
 		return $this->belongsTo(User::class);
 	}
 
+	public function tags()
+	{
+		return $this->belongsToMany(Tag::class, 'movie_tags');
+	}
+
 	public function scopeFilter($query, array $filters)
 	{
 		if ($filters['search'] ?? false)
