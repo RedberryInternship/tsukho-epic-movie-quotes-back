@@ -8,63 +8,77 @@ use App\Models\Quote;
 
 class QuoteController extends Controller
 {
-	public function show($id)
+	public function index()
 	{
-		$quote = Quote::where('id', $id)->with(['likes' => function ($like) {
-			return $like->with(['user']);
-		}, 'comments' => function ($comment) {
+		$quotes = Quote::with(['likes', 'comments' => function ($comment) {
 			return $comment->with(['user']);
-		}])->get();
+		}, 'movie' => function ($movie) {
+			return $movie->select('movies.id', 'movies.user_id', 'movies.name', 'movies.date')
+			->with(['user' => function ($user) {
+				return $user->select('users.id', 'users.name', 'users.image');
+			}]);
+		}])->orderBy('created_at', 'desc')->paginate(3);
 
-		return response()->json($quote, 200);
+		return response()->json($quotes, 200);
 	}
 
-	public function store(QuoteStoreRequest $request)
-	{
-		$data = $request->validated();
-
-		if ($request->hasFile('image'))
+		public function show($id)
 		{
-			$text['image'] = $request->file('image')
-			->store('images', 'public');
-			$data['image'] = asset('storage/' . $text['image']);
+			$quote = Quote::where('id', $id)->with(['likes' => function ($like) {
+				return $like->with(['user']);
+			}, 'comments' => function ($comment) {
+				return $comment->with(['user']);
+			}])->get();
+
+			return response()->json($quote, 200);
 		}
 
-		$quote = new Quote();
-
-		$quote->setTranslation('quote', 'en', $data['quote-en'])
-		->setTranslation('quote', 'ka', $data['quote-ka'])
-		->setAttribute('image', $data['image'])->setAttribute('movie_id', $data['id'])
-		->save();
-
-		return response()->json(['message' => 'Quote created successfully'], 200);
-	}
-
-	public function put(UpdateQuoteRequest $request)
-	{
-		$data = $request->validated();
-
-		$newQuoteTranslations = ['en' => $data['quote-en'], 'ka' => $data['quote-ka']];
-
-		if ($request->hasFile('image'))
+		public function store(QuoteStoreRequest $request)
 		{
-			$text['image'] = $request->file('image')
-			->store('images', 'public');
-			$data['image'] = asset('storage/' . $text['image']);
+			$data = $request->validated();
+
+			if ($request->hasFile('image'))
+			{
+				$text['image'] = $request->file('image')
+				->store('images', 'public');
+				$data['image'] = asset('storage/' . $text['image']);
+			}
+
+			$quote = new Quote();
+
+			$quote->setTranslation('quote', 'en', $data['quote-en'])
+			->setTranslation('quote', 'ka', $data['quote-ka'])
+			->setAttribute('image', $data['image'])->setAttribute('movie_id', $data['id'])
+			->save();
+
+			return response()->json(['message' => 'Quote created successfully'], 200);
 		}
 
-		$quote = Quote::find($request->id);
+		public function put(UpdateQuoteRequest $request)
+		{
+			$data = $request->validated();
 
-		$quote->replaceTranslations('quote', $newQuoteTranslations)->setAttribute('image', $data['image'])
-		->save();
+			$newQuoteTranslations = ['en' => $data['quote-en'], 'ka' => $data['quote-ka']];
 
-		return response()->json(['message' => 'quote data updated successfully'], 200);
-	}
+			if ($request->hasFile('image'))
+			{
+				$text['image'] = $request->file('image')
+				->store('images', 'public');
+				$data['image'] = asset('storage/' . $text['image']);
+			}
 
-	public function destroy(Quote $id)
-	{
-		$id->delete();
+			$quote = Quote::find($request->id);
 
-		return response()->json(['message' => 'quote deleted successfully'], 200);
-	}
+			$quote->replaceTranslations('quote', $newQuoteTranslations)->setAttribute('image', $data['image'])
+			->save();
+
+			return response()->json(['message' => 'quote data updated successfully'], 200);
+		}
+
+		public function destroy(Quote $id)
+		{
+			$id->delete();
+
+			return response()->json(['message' => 'quote deleted successfully'], 200);
+		}
 }
