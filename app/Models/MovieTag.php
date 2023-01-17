@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class MovieTag extends Model
 {
 	use HasFactory;
+
+	protected $fillable = ['movie_id', 'tag_id'];
 }
