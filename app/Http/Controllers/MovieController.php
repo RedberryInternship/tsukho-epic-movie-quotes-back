@@ -43,6 +43,11 @@ class MovieController extends Controller
 		return response()->json(Tag::all(), 200);
 	}
 
+	public function names()
+	{
+		return Movie::where('user_id', auth()->user()->id)->select('movies.id', 'movies.name')->get();
+	}
+
 	public function store(MovieStoreRequest $request)
 	{
 		$data = $request->validated();
