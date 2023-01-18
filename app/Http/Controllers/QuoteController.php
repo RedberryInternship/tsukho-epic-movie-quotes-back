@@ -10,6 +10,11 @@ class QuoteController extends Controller
 {
 	public function index()
 	{
+		if (!is_null(request('lang')))
+		{
+			app()->setLocale(request('lang'));
+		}
+
 		$quotes = Quote::with(['likes', 'comments' => function ($comment) {
 			return $comment->with(['user']);
 		}, 'movie' => function ($movie) {
@@ -17,7 +22,7 @@ class QuoteController extends Controller
 			->with(['user' => function ($user) {
 				return $user->select('users.id', 'users.name', 'users.image');
 			}]);
-		}])->orderBy('created_at', 'desc')->paginate(3);
+		}])->filter(request(['search']))->orderBy('created_at', 'desc')->paginate(3);
 
 		return response()->json($quotes, 200);
 	}
