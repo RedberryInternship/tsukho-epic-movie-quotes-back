@@ -17,6 +17,11 @@ class MovieController extends Controller
 
 	public function index()
 	{
+		if (!is_null(request('lang')))
+		{
+			app()->setLocale(request('lang'));
+		}
+
 		$movies = Movie::where('user_id', auth()->user()->id)->filter(request(['search']))->withCount('quotes')->get();
 
 		return response()->json($movies, 200);
