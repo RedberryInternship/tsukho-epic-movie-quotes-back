@@ -15,11 +15,13 @@ class CommentController extends Controller
 
 		Comment::create([...$data, 'user_id' => auth()->user()->id]);
 
-		if (Quote::find($data['quote_id'])->movie->user_id !== auth()->user()->id)
+		$userId = Quote::find($data['quote_id'])->movie->user_id;
+
+		if ($userId !== auth()->user()->id)
 		{
 			Notification::create(
 				[
-					'user_id'    => Quote::find($data['quote_id'])->movie->user_id,
+					'user_id'    => $userId,
 					'person_id'  => auth()->user()->id,
 					'is_new'     => true,
 					'is_comment' => true,
