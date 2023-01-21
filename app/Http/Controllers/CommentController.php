@@ -30,7 +30,11 @@ class CommentController extends Controller
 				]
 			);
 
-			UserNotification::dispatch(['data' => $notification, 'user_id' => auth()->user()->id]);
+			UserNotification::dispatch(['data' => $notification->with(['person' => function ($person) {
+				return $person->select('id', 'image', 'name');
+			}, 'quote' => function ($quote) {
+				return $quote->select('id', 'movie_id');
+			}])->first(), 'user_id' => auth()->user()->id]);
 		}
 
 		return response()->json(['message' => 'comment was created successfully'], 200);
