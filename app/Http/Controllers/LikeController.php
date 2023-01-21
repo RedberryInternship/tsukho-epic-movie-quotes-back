@@ -39,7 +39,7 @@ class LikeController extends Controller
 				]
 			);
 
-			UserNotification::dispatch(['data' => $notification->with(['person' => function ($person) {
+			UserNotification::dispatch(['data' => Notification::where('id', $notification->id)->with(['person' => function ($person) {
 				return $person->select('id', 'image', 'name');
 			}, 'quote' => function ($quote) {
 				return $quote->select('id', 'movie_id');
