@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserLoginController;
@@ -48,7 +49,11 @@ Route::middleware('auth:sanctum')->group(function () {
 	});
 
 	Route::group(['controller' => LikeController::class], function () {
-		Route::post('/store-or-destroy/{id}', 'storeOrDestroy')->name('quote.storeOrDestroy');
+		Route::post('/store-or-destroy/{id}', 'storeOrDestroy')->name('like.storeOrDestroy');
+	});
+
+	Route::group(['controller' => NotificationController::class], function () {
+		Route::get('/notifications', 'index')->name('notification.index');
 	});
 });
 
