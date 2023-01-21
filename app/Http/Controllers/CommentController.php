@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserNotification;
 use App\Http\Requests\CommentStoreRequest;
 use App\Models\Comment;
 use App\Models\Notification;
@@ -19,7 +20,7 @@ class CommentController extends Controller
 
 		if ($userId !== auth()->user()->id)
 		{
-			Notification::create(
+			$notification = Notification::create(
 				[
 					'user_id'    => $userId,
 					'person_id'  => auth()->user()->id,
@@ -28,6 +29,8 @@ class CommentController extends Controller
 					'quote_id'   => $data['quote_id'],
 				]
 			);
+
+			UserNotification::dispatch(['data' => $notification, 'user_id' => auth()->user()->id]);
 		}
 
 		return response()->json(['message' => 'comment was created successfully'], 200);

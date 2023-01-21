@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserNotification;
 use App\Http\Requests\LikeStoreOrDestroyRequest;
 use App\Models\Like;
 use App\Models\Notification;
@@ -28,7 +29,7 @@ class LikeController extends Controller
 
 		if ($response['user_id'] !== auth()->user()->id)
 		{
-			Notification::create(
+			$notification = Notification::create(
 				[
 					'user_id'    => $response['user_id'],
 					'person_id'  => auth()->user()->id,
@@ -37,6 +38,8 @@ class LikeController extends Controller
 					'quote_id'   => $id->id,
 				]
 			);
+
+			UserNotification::dispatch(['data' => $notification, 'user_id' => auth()->user()->id]);
 		}
 
 		return response()->json(['message' => 'like was created successfully'], 201);

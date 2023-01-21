@@ -22,7 +22,8 @@ class MovieController extends Controller
 			app()->setLocale(request('lang'));
 		}
 
-		$movies = Movie::where('user_id', auth()->user()->id)->filter(request(['search']))->withCount('quotes')->get();
+		$movies = Movie::where('user_id', auth()->user()->id)->filter(request(['search']))->withCount('quotes')
+		->orderBy('created_at', 'desc')->get();
 
 		return response()->json($movies, 200);
 	}
