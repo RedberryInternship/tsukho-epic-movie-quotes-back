@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NotificationUpdateRequest;
 use App\Models\Notification;
 
 class NotificationController extends Controller
@@ -17,5 +18,17 @@ class NotificationController extends Controller
 		->orderBy('created_at', 'desc')->get();
 
 		return response()->json($notifications, 200);
+	}
+
+	public function put(NotificationUpdateRequest $request)
+	{
+		$data = $request->validated();
+
+		foreach ($data['ids'] as $each)
+		{
+			Notification::where('id', $each)->update(['is_new' => false]);
+		}
+
+		return response()->json(['message' => 'notifications updated successfully'], 200);
 	}
 }
