@@ -46,10 +46,13 @@ class Quote extends Model
 						fn ($query) => $query->where('name->en', 'like', '%' . ltrim($filters['search'], '@') . '%')
 					);
 				}
-
-				if ($filters['search'][0] === '#')
+				elseif ($filters['search'][0] === '#')
 				{
 					$query->where('quote->en', 'like', '%' . ltrim($filters['search'], '#') . '%');
+				}
+				else
+				{
+					$query->where('id', null);
 				}
 			}
 			if (app()->getLocale() === 'ka')
@@ -61,10 +64,13 @@ class Quote extends Model
 						fn ($query) => $query->where('name->ka', 'like', '%' . ltrim($filters['search'], '@') . '%')
 					);
 				}
-
-				if ($filters['search'][0] === '#')
+				elseif ($filters['search'][0] === '#')
 				{
 					$query->where('quote->ka', 'like', '%' . ltrim($filters['search'], '#') . '%');
+				}
+				else
+				{
+					$query->where('id', null);
 				}
 			}
 		}

@@ -7,6 +7,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserLoginController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,6 +56,11 @@ Route::middleware('auth:sanctum')->group(function () {
 	Route::group(['controller' => NotificationController::class], function () {
 		Route::get('/notifications', 'index')->name('notification.index');
 		Route::put('/update-notification', 'put')->name('notification.put');
+	});
+
+	Route::group(['controller' => UserProfileController::class], function () {
+		Route::get('/profile-info', 'index')->name('user-profile.index');
+		Route::put('/profile-update', 'put')->name('user-profile.put');
 	});
 });
 
