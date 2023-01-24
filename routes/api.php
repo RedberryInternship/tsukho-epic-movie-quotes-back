@@ -51,7 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
 	});
 
 	Route::group(['controller' => LikeController::class], function () {
-		Route::post('/store-or-destroy/{id}', 'storeOrDestroy')->name('like.storeOrDestroy');
+		Route::post('/store-or-destroy/{id}', 'storeOrDestroy')->name('like.store-or-destroy');
 	});
 
 	Route::group(['controller' => NotificationController::class], function () {
@@ -65,8 +65,8 @@ Route::middleware('auth:sanctum')->group(function () {
 	});
 
 	Route::group(['controller' => EmailController::class], function () {
-		Route::get('/make-email-primary/{id}', 'makePrimary')->name('email.makePrimary');
-		Route::delete('/email-delete/{id}', 'destroy')->name('email.destroy');
+		Route::get('/make-email-primary/{id}', 'makePrimary')->name('email.make-primary');
+		Route::delete('/email/{id}', 'destroy')->name('email.destroy');
 	});
 });
 
