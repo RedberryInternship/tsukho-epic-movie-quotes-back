@@ -10,7 +10,7 @@ class UserProfileController extends Controller
 	public function index()
 	{
 		$userInfo = User::where('id', auth()->user()->id)->with(['emails' => function ($email) {
-			return $email->select('id', 'email', 'email_verified_at', 'is_primary', 'user_id');
+			return $email->select('id', 'email', 'email_verified_at', 'is_primary', 'user_id')->orderBy('is_primary', 'desc');
 		}])->select('id', 'name', 'image', 'google_id')->first();
 
 		return response()->json($userInfo, 200);
