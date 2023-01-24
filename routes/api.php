@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\NotificationController;
@@ -61,6 +62,11 @@ Route::middleware('auth:sanctum')->group(function () {
 	Route::group(['controller' => UserProfileController::class], function () {
 		Route::get('/profile-info', 'index')->name('user-profile.index');
 		Route::put('/profile-update', 'put')->name('user-profile.put');
+	});
+
+	Route::group(['controller' => EmailController::class], function () {
+		Route::get('/make-email-primary/{id}', 'makePrimary')->name('email.makePrimary');
+		Route::delete('/email-delete/{id}', 'destroy')->name('email.destroy');
 	});
 });
 
