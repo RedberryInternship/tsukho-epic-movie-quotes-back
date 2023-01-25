@@ -30,6 +30,11 @@ class UserProfileController extends Controller
 			$data['image'] = asset('storage/' . $image['image']);
 		}
 
+		if (request('password') !== '')
+		{
+			$user->setAttribute('password', bcrypt(request('password')));
+		}
+
 		$user->setAttribute('name', $data['name'])->setAttribute('image', $data['image'])->save();
 
 		return response()->json($user, 200);
