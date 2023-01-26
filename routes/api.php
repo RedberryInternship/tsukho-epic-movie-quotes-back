@@ -65,7 +65,9 @@ Route::middleware('auth:sanctum')->group(function () {
 	});
 
 	Route::group(['controller' => EmailController::class], function () {
+		Route::post('/add-email', 'store')->name('email.store');
 		Route::get('/make-email-primary/{id}', 'makePrimary')->name('email.make-primary');
+		Route::get('/verify-email', 'emailVerify')->name('email.email-verify');
 		Route::delete('/email/{id}', 'destroy')->name('email.destroy');
 	});
 });
