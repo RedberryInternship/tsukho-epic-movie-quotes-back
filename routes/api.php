@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\NotificationController;
@@ -72,15 +73,18 @@ Route::middleware('auth:sanctum')->group(function () {
 	});
 });
 
-Route::middleware('guest')->group(function () {
-	Route::group(['controller' => UserController::class], function () {
-		Route::post('/register', 'register')->name('user.register');
-		Route::post('/password-reset', 'passwordReset')->name('user.password-reset');
-		Route::post('/password-verify', 'verifyPasswordReset')->name('user.password-verify');
-		Route::get('/verify', 'emailVerify')->name('user.verify');
-	});
+Route::group(['controller' => UserController::class], function () {
+	Route::post('/register', 'register')->name('user.register');
+	Route::post('/password-reset', 'passwordReset')->name('user.password-reset');
+	Route::post('/password-verify', 'verifyPasswordReset')->name('user.password-verify');
+	Route::get('/verify', 'emailVerify')->name('user.verify');
+});
 
-	Route::group(['controller' => UserLoginController::class], function () {
-		Route::post('/login', 'login')->name('user-login.login');
-	});
+Route::group(['controller' => UserLoginController::class], function () {
+	Route::post('/login', 'login')->name('user-login.login');
+});
+
+Route::group(['controller' => GoogleAuthController::class], function () {
+	Route::get('/google-auth/{locale}/{type}', 'redirect')->name('google.redirect');
+	Route::get('/auth/google/callback/{locale}/{type}', 'verifyUser')->name('google.verify-user');
 });
