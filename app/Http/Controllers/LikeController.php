@@ -29,7 +29,7 @@ class LikeController extends Controller
 
 		if ($response['user_id'] !== auth()->user()->id)
 		{
-			$notification = Notification::create(
+			Notification::create(
 				[
 					'user_id'    => $response['user_id'],
 					'person_id'  => auth()->user()->id,
@@ -39,11 +39,7 @@ class LikeController extends Controller
 				]
 			);
 
-			UserNotification::dispatch(['data' => Notification::where('id', $notification->id)->with(['person' => function ($person) {
-				return $person->select('id', 'image', 'name');
-			}, 'quote' => function ($quote) {
-				return $quote->select('id', 'movie_id');
-			}])->first(), 'user_id' => auth()->user()->id]);
+			UserNotification::dispatch(['user_id' => $response['user_id']]);
 		}
 
 		return response()->json(['message' => 'like was created successfully'], 201);

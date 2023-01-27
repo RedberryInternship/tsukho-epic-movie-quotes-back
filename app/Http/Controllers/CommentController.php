@@ -20,7 +20,7 @@ class CommentController extends Controller
 
 		if ($userId !== auth()->user()->id)
 		{
-			$notification = Notification::create(
+			Notification::create(
 				[
 					'user_id'    => $userId,
 					'person_id'  => auth()->user()->id,
@@ -30,11 +30,7 @@ class CommentController extends Controller
 				]
 			);
 
-			UserNotification::dispatch(['data' => Notification::where('id', $notification->id)->with(['person' => function ($person) {
-				return $person->select('id', 'image', 'name');
-			}, 'quote' => function ($quote) {
-				return $quote->select('id', 'movie_id');
-			}])->first(), 'user_id' => auth()->user()->id]);
+			UserNotification::dispatch(['user_id' => $userId]);
 		}
 
 		return response()->json(['message' => 'comment was created successfully'], 200);
