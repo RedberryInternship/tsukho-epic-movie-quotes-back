@@ -4,17 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MovieStoreRequest;
 use App\Http\Requests\MovieUpdateRequest;
-use Spatie\Translatable\HasTranslations;
 use App\Models\Movie;
 use App\Models\MovieTag;
 use App\Models\Tag;
 
 class MovieController extends Controller
 {
-	use HasTranslations;
-
-	public $translatable = ['name', 'director', 'description'];
-
 	public function index()
 	{
 		if (!is_null(request('lang')))
