@@ -13,9 +13,10 @@ class DatabaseSeeder extends Seeder
 	{
 		foreach (config('genres.genres') as $genre)
 		{
-			$movieTags = new Tag();
-
-			$movieTags->setTranslation('tags', 'en', $genre['en'])->setTranslation('tags', 'ka', $genre['ka'])->save();
+			Tag::factory()->create(['tags' => [
+				'en' => $genre['en'],
+				'ka' => $genre['ka'],
+			]]);
 		}
 	}
 }
