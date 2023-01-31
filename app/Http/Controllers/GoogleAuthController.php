@@ -41,7 +41,7 @@ class GoogleAuthController extends Controller
 		}
 
 		$newUser = User::create([
-			'name'      => $user->name,
+			'name'      => strtolower(str_replace(' ', '', $user->name)),
 			'google_id' => $user->id,
 			'image'     => $user->avatar,
 		]);
