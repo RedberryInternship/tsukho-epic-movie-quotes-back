@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-	return (int) $user->id === (int) $id;
-});
-
 Broadcast::channel('epic-movies.{userId}', function ($user, $userId) {
 	return $user->id == User::find($userId)->id;
 });
