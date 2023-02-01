@@ -30,9 +30,12 @@ class UserProfileController extends Controller
 			$data['image'] = asset('storage/' . $image['image']);
 		}
 
-		if (request('password') !== '')
+		if ($user->google_id === null)
 		{
-			$user->setAttribute('password', bcrypt(request('password')));
+			if (request('password') !== '')
+			{
+				$user->setAttribute('password', bcrypt(request('password')));
+			}
 		}
 
 		$user->setAttribute('name', $data['name'])->setAttribute('image', $data['image'])->save();
