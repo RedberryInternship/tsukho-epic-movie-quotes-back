@@ -65,7 +65,7 @@ class MovieController extends Controller
 
 		$movie->setTranslation('name', 'en', $data['name-en'])
 		->setTranslation('name', 'ka', $data['name-ka'])->setTranslation('director', 'en', $data['director-en'])
-		->setTranslation('director', 'ka', $data['director-ka'])->setTranslation('description', 'en', $data['description-ka'])
+		->setTranslation('director', 'ka', $data['director-ka'])->setTranslation('description', 'en', $data['description-en'])
 		->setTranslation('description', 'ka', $data['description-ka'])
 		->setAttribute('image', $data['image'])->setAttribute('user_id', auth()->user()->id)->setAttribute('date', $data['date'])
 		->setAttribute('budget', $data['budget'])
