@@ -24,7 +24,7 @@ class EmailController extends Controller
 
 		$emailData = ['email' => $data['email'], 'is_primary' => false, 'user_id' => auth()->user()->id, 'verification_token' => $token];
 
-		Email::create($emailData);
+		$email = Email::create($emailData)->select('id', 'email', 'email_verified_at', 'is_primary', 'user_id')->latest()->first();
 
 		$route = URL::temporarySignedRoute(
 			'email.email-verify',
@@ -32,11 +32,11 @@ class EmailController extends Controller
 			['token' => $token],
 		);
 
-		$frontUrl = config('app.front-url') . request('lang') . '/profile/' . '?verification-link=' . $route;
+		$frontUrl = config('app.front-url') . request('lang') . '/verify-email/' . '?verification-link=' . $route;
 
 		Mail::to($data['email'])->send(new VerificationMail($frontUrl, auth()->user()->name, __('email.email-verification'), __('email.email-verification-text'), __('email.email-verify-button')));
 
-		return response()->json('Email verification email sent successfully', 201);
+		return response()->json($email, 201);
 	}
 
 	public function makePrimary(Email $id)
