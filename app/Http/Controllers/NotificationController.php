@@ -24,9 +24,12 @@ class NotificationController extends Controller
 	{
 		$data = $request->validated();
 
-		foreach ($data['ids'] as $each)
+		if (count($data['ids']) > 0)
 		{
-			Notification::where('id', $each)->update(['is_new' => false]);
+			foreach ($data['ids'] as $each)
+			{
+				Notification::where('id', $each)->update(['is_new' => false]);
+			}
 		}
 
 		return response()->json(['message' => 'notifications updated successfully'], 200);

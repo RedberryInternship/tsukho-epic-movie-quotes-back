@@ -9,7 +9,7 @@ class NotificationUpdateRequest extends FormRequest
 	public function rules()
 	{
 		return [
-			'ids' => 'required',
+			'ids' => 'array',
 		];
 	}
 }
