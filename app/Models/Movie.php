@@ -40,14 +40,7 @@ class Movie extends Model
 	{
 		if ($filters['search'] ?? false)
 		{
-			if (app()->getLocale() === 'en')
-			{
-				$query->where('name->en', 'like', '%' . ($filters['search']) . '%');
-			}
-			if (app()->getLocale() === 'ka')
-			{
-				$query->where('name->ka', 'like', '%' . ($filters['search']) . '%');
-			}
+			$query->where('name->en', 'like', '%' . ($filters['search']) . '%')->orWhere('name->ka', 'like', '%' . ($filters['search']) . '%');
 		}
 	}
 }

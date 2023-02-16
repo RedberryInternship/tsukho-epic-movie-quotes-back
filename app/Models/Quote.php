@@ -37,41 +37,23 @@ class Quote extends Model
 	{
 		if ($filters['search'] ?? false)
 		{
-			if (app()->getLocale() === 'en')
+			if ($filters['search'][0] === '@')
 			{
-				if ($filters['search'][0] === '@')
-				{
-					$query->whereHas(
-						'movie',
-						fn ($query) => $query->where('name->en', 'like', '%' . ltrim($filters['search'], '@') . '%')
-					);
-				}
-				elseif ($filters['search'][0] === '#')
-				{
-					$query->where('quote->en', 'like', '%' . ltrim($filters['search'], '#') . '%');
-				}
-				else
-				{
-					$query->where('id', null);
-				}
+				$query->whereHas(
+					'movie',
+					fn ($query) => $query->where('name->en', 'like', '%' . ltrim($filters['search'], '@') . '%')
+				)->orWhereHas(
+					'movie',
+					fn ($query) => $query->where('name->ka', 'like', '%' . ltrim($filters['search'], '@') . '%')
+				);
 			}
-			if (app()->getLocale() === 'ka')
+			elseif ($filters['search'][0] === '#')
 			{
-				if ($filters['search'][0] === '@')
-				{
-					$query->whereHas(
-						'movie',
-						fn ($query) => $query->where('name->ka', 'like', '%' . ltrim($filters['search'], '@') . '%')
-					);
-				}
-				elseif ($filters['search'][0] === '#')
-				{
-					$query->where('quote->ka', 'like', '%' . ltrim($filters['search'], '#') . '%');
-				}
-				else
-				{
-					$query->where('id', null);
-				}
+				$query->where('quote->en', 'like', '%' . ltrim($filters['search'], '#') . '%')->orWhere('quote->ka', 'like', '%' . ltrim($filters['search'], '#') . '%');
+			}
+			else
+			{
+				$query->where('id', null);
 			}
 		}
 	}
