@@ -170,7 +170,7 @@ For more information about project standards, take a look at these docs:
 
 ### Structure of mysql
 
-<img src="readme/assets/Drawsql.png" height="250" style="position: relative; top: 4px" />
+<img src="readme/assets/drawsql.png" height="250" style="position: relative; top: 4px" />
 
 </br>
 
